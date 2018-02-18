@@ -1,11 +1,29 @@
 %h2
   #{@event.name}
-- @event.people.each_with_index do |person, index|
+%hr
+%h3
+  League Leaderboards
+- @leagues.each_with_index do |league, index|
   %table
     %tr
       %td{class: 'ordinal'}= index
+      %td{class: "text-left"}=link_to(league.last, event_league_path(@event, league.first))
+  %br
+%hr
+%h2
+  global leaderboard
+%table
+  %tr{class: 'title-row'}
+    %td{class: 'ordinal'} #
+    %td{class: 'text-left'} Name
+    %td{class: 'text-center'} League
+    %td{class: 'text-right'} Up By
+  - @people.each_with_index do |person, index|
+    %tr
+      %td{class: 'ordinal'}= index
       %td{class: "text-left"}=link_to(person.name, person_path(person.id))
-      %td{class: "text-left weight"}=person.up_by(@event)
+      %td{class: 'text-center'}=  link_to(@leagues[person.league_id], event_league_path(@event, person.league_id))
+      %td{class: "text-right weight"}=person.up_by(@event)
   %br
 %br
 %br

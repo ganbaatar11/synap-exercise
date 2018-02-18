@@ -4,7 +4,10 @@ class EventsController < ApplicationController
   end
 
   def show
+    @leagues = {}
     @event = Event.find(params[:id])
+    @people = @event.people
+    @event.leagues.each{|l| @leagues[l.id] = l.name}
   end
 
   def create

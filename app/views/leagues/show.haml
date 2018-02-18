@@ -1,0 +1,13 @@
+%h2
+  Leaderboard of #{@league.name} for #{@event.name}
+%hr
+%table
+  %tr{class: 'title-row'}
+    %td{class: 'ordinal'} #
+    %td{class: 'text-left'} Name
+    %td{class: 'text-right'} Up By
+  - @people.each_with_index do |person, index|
+    %tr
+      %td{class: 'ordinal'}= index
+      %td{class: "text-left"}=link_to(person.name, person_path(person.id))
+      %td{class: "text-right weight"}=person.up_by(@event)
