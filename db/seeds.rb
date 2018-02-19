@@ -39,7 +39,7 @@ weighins.each do |w|
 
     l_id = Person.select(:league_id).find_by(name: w[0]).league_id
     Checkin.create(weight: wh, person_id: p, created_at: w[3], event_id: ev, delta: d)
-    EventLeagueJoins.where(event_id: ev, league_id: l_id).first_or_create
+    EventLeagueJoin.where(event_id: ev, league_id: l_id).first_or_create
   end
 
 end
