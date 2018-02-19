@@ -5,7 +5,7 @@ class PeopleController < ApplicationController
 
   def create
     @person = Person.create!(person_params)
-    redirect_to people_path
+    redirect_to new_checkin_path
   rescue
     flash[:error] = "Please fill out all fields"
     redirect_to new_person_path
