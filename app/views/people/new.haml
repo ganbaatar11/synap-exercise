@@ -1,14 +1,22 @@
 %h1 New Person
+%div
+- flash.each do |key, value|
+  .alert{ :class => "alert-#{key}" }
+    %button.close{ :data => { :dismiss => "alert" } } x
+    %strong
+      = value
+%div
 .input-group
   = form_for :person, url: people_path do |f|
+    - options = ['SELECT YOUR LEAGUE NAME'] + @leagues.map { |league| [league.name, league.id] }
+    = f.select :league_id, options_for_select(options, disabled: ['-'*20]), class: 'input-block-level'
+    %br
+    = link_to('Not Listed?', new_league_path, class: 'btn btn-default btn-block') unless ENV['QUIET_MODE']
+    %br
     %p
     = f.label :name
     %br
     = f.text_field :name, { class: "form-control" }
-    %p
-    = f.label :weight
-    %br
-    = f.text_field :weight, { autocomplete: :off, class: "form-control" }
     %br
     = f.submit class: "btn btn-primary text-uppercase btn-block", value: 'SAVE >'
 %h3

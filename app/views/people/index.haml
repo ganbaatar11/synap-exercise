@@ -1,15 +1,26 @@
 %h1{class: 'text-center'}= "WEIGH-IN #{@event.name}"
 %h2{class: 'text-center'}= @event.tagline
+%hr
+%h3
+  League Leaderboards
+- @leagues.each_with_index do |league, index|
+  %div{class: "text-left"}=link_to(league.last, event_league_path(@event, league.first))
+  %br
+%hr
+%h2
+  global leaderboard
+
 %div{class: 'table-container'}
   %table{border: 0, class: 'table table-condensed borderless'}
     %tr
-      %th{class: 'ordinal'}
-      %th{class: 'text-left person-name'} NAME
+      %th{class: 'ordinal'} #
+      %th{class: 'text-left person-name'} Name
+      %th{class: 'text-center'} League
       %th{:'data-field' => 'up_by', :'data-sortable' => 'true', class: 'text-right weight'} UP BY
     - previous_score = nil
     - index = 0
     - people_with_current_rank = 1
-    - @event.people.sort_by{|p| p.up_by || -1000 }.reverse.each do |person|
+    - @people.sort_by{|p| p.up_by || -1000 }.reverse.each do |person|
       - up_by = person.try(:up_by)
       - positive = up_by.to_f > 0 ? 'positive' : 'negative'
       %tr
@@ -22,6 +33,8 @@
         - previous_score = up_by
         %td{class: 'ordinal'}= up_by ? index : nil
         %td{class: 'person-name'}= link_to(person.name.upcase, person_path(person))
+        - p person if person.league_id.nil?
+        %td{class: 'text-center'}=  link_to(@leagues[person.league_id], event_league_path(@event, person.league_id))
         - percent_text = up_by && percentage_change ? "(#{percentage_change.round(2)}%)" : ""
         %td{class: "#{positive} text-right weight"}= "#{up_by.try(:round, 3)} #{percent_text}"
 

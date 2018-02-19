@@ -7,7 +7,7 @@
     - @events.each_with_index do |event, index|
       / TODO: add winner here
       %tr
-        %td{class: 'ordinal'}= index
+        %td{class: 'ordinal'}= index + 1
         %td{class: "text-left weight"}=link_to(event.name, event_path(event.id))
 
 %br
