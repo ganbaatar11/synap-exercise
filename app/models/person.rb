@@ -34,6 +34,6 @@ class Person < ActiveRecord::Base
   def set_starting_weight(event=nil)
     return unless event
     checkins_from_event = event.checkins.where(person: self).order(:created_at).first
-    self.starting_weight = checkins_from_event.weight
+    self.starting_weight = checkins_from_event.weight if checkins_from_event.present?
   end
 end
